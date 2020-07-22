@@ -17,7 +17,7 @@ namespace WebAPIDemo.Controllers
         // GET api/values
         public IEnumerable<ToDoModel> Get()
         {
-            return BC.GetWorkItemList();
+            return BC.GetWorkItemList().ToList();
         }
 
         // GET api/values/5
@@ -28,8 +28,9 @@ namespace WebAPIDemo.Controllers
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public IEnumerable<ToDoModel> Post([FromBody]ToDoModel workItem)
         {
+            return BC.AddWorkItem(workItem).ToList();
         }
 
         // PUT api/values/5
