@@ -23,10 +23,34 @@ namespace WebAPIDemo.BusinessLayer
             return DataLayer.GetWorkList().FirstOrDefault(x => x.ID == ID);
         }
 
-        public IEnumerable<ToDoModel> AddWorkItem(ToDoModel workItem)
+        public ToDoModel AddWorkItem(ToDoModel workItem)
         {
-            workList.Add(workItem);
-            return workList;
+           int WorkItemID = DataLayer.InsertWorkItem(workItem);
+           return DataLayer.GetWorkList().FirstOrDefault(x => x.ID == WorkItemID); 
+        }
+
+        public IEnumerable<ToDoModel> UpdateWorkItem(int ID, ToDoModel workItem)
+        {
+            try
+            {
+                return DataLayer.UpdateWorkItem(ID, workItem);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public IEnumerable<ToDoModel> DeleteWorkItem(int ID)
+        {
+            try
+            {
+                return DataLayer.DeleteWorkItem(ID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

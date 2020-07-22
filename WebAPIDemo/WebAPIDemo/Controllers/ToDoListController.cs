@@ -28,19 +28,40 @@ namespace WebAPIDemo.Controllers
         }
 
         // POST api/values
-        public IEnumerable<ToDoModel> Post([FromBody]ToDoModel workItem)
+        public HttpResponseMessage Post([FromBody]ToDoModel workItem)
         {
-            return BC.AddWorkItem(workItem).ToList();
+            var message= Request.CreateResponse(HttpStatusCode.Created, BC.AddWorkItem(workItem));
+            return message;
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        public HttpResponseMessage Put(int id, [FromBody]ToDoModel workItem)
         {
+            HttpResponseMessage message;
+            try
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK, BC.UpdateWorkItem(id, workItem));
+            }
+            catch (Exception ex)
+            {
+                message = Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
+            return message;
         }
 
         // DELETE api/values/5
-        public void Delete(int id)
+        public HttpResponseMessage Delete(int id)
         {
+            HttpResponseMessage message;
+            try
+            {
+                message = Request.CreateResponse(HttpStatusCode.OK, BC.DeleteWorkItem(id));
+            }
+            catch (Exception ex)
+            {
+                message = Request.CreateResponse(HttpStatusCode.NotFound, ex.Message);
+            }
+            return message;
         }
     }
 }
